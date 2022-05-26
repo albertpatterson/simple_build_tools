@@ -225,8 +225,8 @@ export async function webpack(config) {
 }
 
 /**
- * @param {String} sourceDir: /some/folder/to/compress
- * @param {String} outPath: /path/to/created.zip
+ * @param {String} sourceDir path to directory to zip
+ * @param {String} outPath path to zip file to create
  * @returns {Promise}
  */
 export function zipDirectory(sourceDir, outPath) {

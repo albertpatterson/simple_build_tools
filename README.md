@@ -43,7 +43,7 @@ Simple tools for building a nodejs project
 <dt><a href="#webpack">webpack(config)</a> ⇒ <code>Promise.&lt;string&gt;</code></dt>
 <dd><p>Run webpack and report the result</p>
 </dd>
-<dt><a href="#zipDirectory">zipDirectory(sourceDir:, outPath:)</a> ⇒ <code>Promise</code></dt>
+<dt><a href="#zipDirectory">zipDirectory(sourceDir, outPath)</a> ⇒ <code>Promise</code></dt>
 <dd></dd>
 </dl>
 
@@ -185,11 +185,11 @@ Run webpack and report the result
 
 <a name="zipDirectory"></a>
 
-## zipDirectory(sourceDir:, outPath:) ⇒ <code>Promise</code>
+## zipDirectory(sourceDir, outPath) ⇒ <code>Promise</code>
 **Kind**: global function  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| sourceDir: | <code>String</code> | /some/folder/to/compress |
-| outPath: | <code>String</code> | /path/to/created.zip |
+| sourceDir | <code>String</code> | path to directory to zip |
+| outPath | <code>String</code> | path to zip file to create |
 
