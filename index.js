@@ -105,13 +105,24 @@ async function runAndReport(task) {
   const taskName = task.name;
   const doLog = !['runParallelTasks', 'runSeriesTasks'].includes(taskName);
   if (doLog) {
-    console.log(chalk.bgHex('#d6e9ff')(`start\t${task.name}`));
+    console.log(chalk.bgHex('#d6e9ff')(`Start     ${task.name}`));
   }
-  await task();
-  if (doLog) {
-    console.log(
-      chalk.bgHex('#dcffdc')(`finish\t${task.name} in ${Date.now() - start}ms`)
-    );
+
+  let completed = false;
+  try {
+    await task();
+    completed = true;
+  } catch (error) {
+    throw error;
+  } finally {
+    if (doLog) {
+      const result = completed ? 'Completed ' : 'Failed    ';
+      const msgTxt = `${result}${task.name} in ${Date.now() - start}ms`;
+      const msg = completed
+        ? chalk.bgHex('#dcffdc')(msgTxt)
+        : chalk.bgHex('#b96565')(msgTxt);
+      console.log(msg);
+    }
   }
 }
 
@@ -151,17 +162,15 @@ export async function runTasks(task) {
     await task();
     completed = true;
   } catch (error) {
-    console.error(
-      chalk.red('\n' + error.message || error.details || error + '\n')
-    );
-  }
+    throw error;
+  } finally {
+    const timing = `in ${Date.now() - start}ms`;
 
-  const timing = `in ${Date.now() - start}ms`;
-
-  if (completed) {
-    console.log(chalk.bgGreen(`Completed ${timing}`));
-  } else {
-    console.log(chalk.bgRed(`Failed ${timing}`));
+    if (completed) {
+      console.log(chalk.bgGreen(`Completed ${timing}`));
+    } else {
+      console.log(chalk.bgRed(`Failed ${timing}`));
+    }
   }
 }
 
@@ -209,8 +218,21 @@ const webpackAsyncRaw = async (config) =>
 export async function webpack(config) {
   try {
     return await webpackAsyncRaw(config);
-  } catch (err) {
-    const errs = err instanceof Array ? err : [err];
+  } catch (errs) {
+    if (errs instanceof Error) {
+      const newErr = new Error(errs.message || errs.details);
+      newErr.stack = errs.stack;
+      throw newErr;
+    }
+
+    if (errs instanceof Array && errs.length === 1) {
+      const err = errs[0];
+      const newErr = new Error(err.message || err.details);
+      newErr.stack = err.stack;
+      throw newErr;
+    }
+
+    errs = errs instanceof Array ? errs : [errs];
 
     const fullMessageParts = [];
 
