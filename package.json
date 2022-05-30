@@ -1,6 +1,6 @@
 {
   "name": "simple_build_tools",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Simple tools for building a nodejs project",
   "main": "index.js",
   "scripts": {
