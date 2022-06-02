@@ -44,9 +44,7 @@ Simple tools for building a nodejs project
 <dd><p>Run webpack and report the result</p>
 </dd>
 <dt><a href="#zipDirectory">zipDirectory(sourceDir, outPath)</a> ⇒ <code>Promise</code></dt>
-<dd></dd>
-<dt><a href="#isFileMatch">isFileMatch(file, parents)</a></dt>
-<dd><p>Matcher for getFileMatches</p>
+<dd><p>zip the contents of a directory into a single file</p>
 </dd>
 <dt><a href="#getFileMatches">getFileMatches(dirPath, isMatch, recurse, parents)</a> ⇒ <code>Promise.&lt;Array.&lt;string&gt;&gt;</code></dt>
 <dd><p>get files that match a test</p>
@@ -59,6 +57,14 @@ Simple tools for building a nodejs project
 </dd>
 <dt><a href="#getFileWithName">getFileWithName(dirPath, name, extensions)</a> ⇒ <code>Promise.&lt;string&gt;</code></dt>
 <dd><p>get a source file by name</p>
+</dd>
+</dl>
+
+## Typedefs
+
+<dl>
+<dt><a href="#isFileMatch">isFileMatch</a> ⇒ <code>boolean</code></dt>
+<dd><p>Matcher for getFileMatches</p>
 </dd>
 </dl>
 
@@ -201,24 +207,14 @@ Run webpack and report the result
 <a name="zipDirectory"></a>
 
 ## zipDirectory(sourceDir, outPath) ⇒ <code>Promise</code>
+zip the contents of a directory into a single file
+
 **Kind**: global function  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | sourceDir | <code>String</code> | path to directory to zip |
 | outPath | <code>String</code> | path to zip file to create |
-
-<a name="isFileMatch"></a>
-
-## isFileMatch(file, parents)
-Matcher for getFileMatches
-
-**Kind**: global function  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| file | <code>Node.File</code> | to check for a match |
-| parents | <code>Array.&lt;string&gt;</code> | parents of the file to check |
 
 <a name="getFileMatches"></a>
 
@@ -270,4 +266,16 @@ get a source file by name
 | dirPath | <code>string</code> | the path of the directory containing the files |
 | name | <code>string</code> | the name of the source file |
 | extensions | <code>string</code> \| <code>Array.&lt;string&gt;</code> \| <code>&#x27;\*&#x27;</code> | the extension of possible extensions of the file |
+
+<a name="isFileMatch"></a>
+
+## isFileMatch ⇒ <code>boolean</code>
+Matcher for getFileMatches
+
+**Kind**: global typedef  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| file | <code>Node.File</code> | file to check for a match |
+| parents | <code>Array.&lt;string&gt;</code> | parents of the file to check |
 

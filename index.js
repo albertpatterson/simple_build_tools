@@ -248,6 +248,7 @@ export async function webpack(config) {
 }
 
 /**
+ * zip the contents of a directory into a single file
  * @param {String} sourceDir path to directory to zip
  * @param {String} outPath path to zip file to create
  * @returns {Promise}
@@ -269,9 +270,10 @@ export function zipDirectory(sourceDir, outPath) {
 
 /**
  * Matcher for getFileMatches
- * @function isFileMatch
- * @param {Node.File} file to check for a match
+ * @callback isFileMatch
+ * @param {Node.File} file file to check for a match
  * @param {string[]} parents parents of the file to check
+ * @returns {boolean}
  */
 
 /**
@@ -340,13 +342,6 @@ export async function getDirs(dirPath, recurse = false) {
   const isMatch = (file) => file.isDirectory();
   return getFileMatches(dirPath, isMatch, recurse);
 }
-
-/**
- * get a source file by name
- * @param {string} dirPath the path of the directory containing the files
- * @param {string|string[]} name the name of the source file
- * @returns {Promise<string>}
- */
 
 /**
  * get a source file by name
