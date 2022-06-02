@@ -5,6 +5,7 @@ import chalk from 'chalk';
 import webpackRaw from 'webpack';
 import archiver from 'archiver';
 import ncp from 'ncp';
+import { match } from 'assert';
 
 /**
  * Convert a callback executing asynchronouse function into a promise returning one
@@ -264,4 +265,127 @@ export function zipDirectory(sourceDir, outPath) {
     stream.on('close', () => resolve());
     archive.finalize();
   });
+}
+
+/**
+ * Matcher for getFileMatches
+ * @function isFileMatch
+ * @param {Node.File} file to check for a match
+ * @param {string[]} parents parents of the file to check
+ */
+
+/**
+ * get files that match a test
+ * @param {string} dirPath the path of the directory containing the files
+ * @param {isFileMatch} isMatch function to test if a file is a match
+ * @param {boolean} recurse whether to recurse into child folders
+ * @param {string[]} parents array of parent directories
+ * @returns {Promise<string[]>}
+ */
+export async function getFileMatches(
+  dirPath,
+  isMatch,
+  recurse = false,
+  parents = []
+) {
+  const files = [];
+  const dirs = [];
+  const allItems = await fs.promises.readdir(dirPath, { withFileTypes: true });
+
+  for (const item of allItems) {
+    if (item.isDirectory()) {
+      dirs.push(item.name);
+    }
+
+    if (isMatch(item, parents)) {
+      files.push(path.join(...parents, item.name));
+    }
+  }
+
+  if (recurse) {
+    for (const dir of dirs) {
+      const newParents = [...parents, dir];
+      const childPath = path.join(dirPath, dir);
+      const childFiles = await getFileMatches(
+        childPath,
+        isMatch,
+        recurse,
+        newParents
+      );
+      files.push(...childFiles);
+    }
+  }
+
+  return files;
+}
+
+/**
+ * Get the files in a directory
+ * @param {string} dirPath the path of the directory containing the files
+ * @param {boolean} recurse whether to recurse into child folders
+ * @returns {Promise<string[]>}
+ */
+export function getFiles(dirPath, recurse = false) {
+  const isMatch = (file) => !file.isDirectory();
+  return getFileMatches(dirPath, isMatch, recurse);
+}
+
+/**
+ * Get directories in a directory
+ * @param {string} dirPath the path of the directory containing the files
+ * @param {boolean} recurse whether to recurse into child folders
+ * @returns {Promise<string[]>}
+ */
+export async function getDirs(dirPath, recurse = false) {
+  const isMatch = (file) => file.isDirectory();
+  return getFileMatches(dirPath, isMatch, recurse);
+}
+
+/**
+ * get a source file by name
+ * @param {string} dirPath the path of the directory containing the files
+ * @param {string|string[]} name the name of the source file
+ * @returns {Promise<string>}
+ */
+
+/**
+ * get a source file by name
+ * @param {string} dirPath the path of the directory containing the files
+ * @param {string} name the name of the source file
+ * @param {string|string[]|'*'} extensions the extension of possible extensions of the file
+ * @returns {Promise<string>}
+ */
+export async function getFileWithName(
+  dirPath,
+  name,
+  extensions = '[(ts)(js)]'
+) {
+  let nameRegExp;
+
+  if (extensions instanceof Array) {
+    const extensionRegExpPart =
+      '(' + extensions.map((ext) => `(${ext})`).join('|') + ')';
+    nameRegExp = new RegExp(`^${name}\.${extensionRegExpPart}$`);
+  } else if (typeof extensions === 'string') {
+    if (extensions === '*') {
+      nameRegExp = new RegExp(`^${name}\.`);
+    } else {
+      nameRegExp = new RegExp(`^${name}\.${extensions}$`);
+    }
+  } else {
+    throw new Error('invalid extensions provided');
+  }
+
+  const matches = await getFileMatches(dirPath, (fileName) => {
+    const match = fileName.name.match(nameRegExp);
+    return match;
+  });
+
+  if (matches.length === 0) {
+    throw new Error(`no matching file with name "${name}" found`);
+  } else if (matches.length > 1) {
+    throw new Error(`multiple matching files with name "${name}" found`);
+  }
+
+  return matches[0];
 }

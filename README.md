@@ -45,6 +45,21 @@ Simple tools for building a nodejs project
 </dd>
 <dt><a href="#zipDirectory">zipDirectory(sourceDir, outPath)</a> ⇒ <code>Promise</code></dt>
 <dd></dd>
+<dt><a href="#isFileMatch">isFileMatch(file, parents)</a></dt>
+<dd><p>Matcher for getFileMatches</p>
+</dd>
+<dt><a href="#getFileMatches">getFileMatches(dirPath, isMatch, recurse, parents)</a> ⇒ <code>Promise.&lt;Array.&lt;string&gt;&gt;</code></dt>
+<dd><p>get files that match a test</p>
+</dd>
+<dt><a href="#getFiles">getFiles(dirPath, recurse)</a> ⇒ <code>Promise.&lt;Array.&lt;string&gt;&gt;</code></dt>
+<dd><p>Get the files in a directory</p>
+</dd>
+<dt><a href="#getDirs">getDirs(dirPath, recurse)</a> ⇒ <code>Promise.&lt;Array.&lt;string&gt;&gt;</code></dt>
+<dd><p>Get directories in a directory</p>
+</dd>
+<dt><a href="#getFileWithName">getFileWithName(dirPath, name, extensions)</a> ⇒ <code>Promise.&lt;string&gt;</code></dt>
+<dd><p>get a source file by name</p>
+</dd>
 </dl>
 
 <a name="toProm"></a>
@@ -192,4 +207,67 @@ Run webpack and report the result
 | --- | --- | --- |
 | sourceDir | <code>String</code> | path to directory to zip |
 | outPath | <code>String</code> | path to zip file to create |
+
+<a name="isFileMatch"></a>
+
+## isFileMatch(file, parents)
+Matcher for getFileMatches
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| file | <code>Node.File</code> | to check for a match |
+| parents | <code>Array.&lt;string&gt;</code> | parents of the file to check |
+
+<a name="getFileMatches"></a>
+
+## getFileMatches(dirPath, isMatch, recurse, parents) ⇒ <code>Promise.&lt;Array.&lt;string&gt;&gt;</code>
+get files that match a test
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| dirPath | <code>string</code> | the path of the directory containing the files |
+| isMatch | [<code>isFileMatch</code>](#isFileMatch) | function to test if a file is a match |
+| recurse | <code>boolean</code> | whether to recurse into child folders |
+| parents | <code>Array.&lt;string&gt;</code> | array of parent directories |
+
+<a name="getFiles"></a>
+
+## getFiles(dirPath, recurse) ⇒ <code>Promise.&lt;Array.&lt;string&gt;&gt;</code>
+Get the files in a directory
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| dirPath | <code>string</code> | the path of the directory containing the files |
+| recurse | <code>boolean</code> | whether to recurse into child folders |
+
+<a name="getDirs"></a>
+
+## getDirs(dirPath, recurse) ⇒ <code>Promise.&lt;Array.&lt;string&gt;&gt;</code>
+Get directories in a directory
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| dirPath | <code>string</code> | the path of the directory containing the files |
+| recurse | <code>boolean</code> | whether to recurse into child folders |
+
+<a name="getFileWithName"></a>
+
+## getFileWithName(dirPath, name, extensions) ⇒ <code>Promise.&lt;string&gt;</code>
+get a source file by name
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| dirPath | <code>string</code> | the path of the directory containing the files |
+| name | <code>string</code> | the name of the source file |
+| extensions | <code>string</code> \| <code>Array.&lt;string&gt;</code> \| <code>&#x27;\*&#x27;</code> | the extension of possible extensions of the file |
 
