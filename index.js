@@ -5,7 +5,6 @@ import chalk from 'chalk';
 import webpackRaw from 'webpack';
 import archiver from 'archiver';
 import ncp from 'ncp';
-import { match } from 'assert';
 
 /**
  * Convert a callback executing asynchronouse function into a promise returning one
