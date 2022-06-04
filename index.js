@@ -1,3 +1,13 @@
+/**
+ * @file
+ * @author Albert Patterson <albert.patterson.code@gmail.com>
+ * @see [Linkedin]{@link https://www.linkedin.com/in/apattersoncmu/}
+ * @see [Github]{@link https://github.com/albertpatterson}
+ * @see [npm]{@link https://www.npmjs.com/~apatterson189}
+ * @see [Youtube]{@link https://www.youtube.com/channel/UCrECEffgWKBMCvn5tar9bYw}
+ * @see [Medium]{@link https://medium.com/@albert.patterson.code}
+ */
+
 import fs from 'fs';
 import path from 'path';
 import rimraf from 'rimraf';
